@@ -10,7 +10,7 @@ def freeze_graph(input_checkpoint, meta_path, output_node_names, output_graph):
     graph = tf.get_default_graph()
     input_graph_def = graph.as_graph_def()
     tensor_name_list = [tensor.name for tensor in graph.as_graph_def().node]
-    print(tensor_name_list)
+    #print(tensor_name_list)
 
     with tf.Session() as sess:
         saver.restore(sess, input_checkpoint)
