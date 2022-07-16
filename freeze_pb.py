@@ -9,6 +9,8 @@ def freeze_graph(input_checkpoint, meta_path, output_node_names, output_graph):
     saver = tf.train.import_meta_graph(meta_path, clear_devices = True)
     graph = tf.get_default_graph()
     input_graph_def = graph.as_graph_def()
+    tensor_name_list = [tensor.name for tensor in graph.as_graph_def().node]
+    print(tensor_name_list)
 
     with tf.Session() as sess:
         saver.restore(sess, input_checkpoint)
@@ -30,11 +32,5 @@ input_checkpoint = sys.argv[1]
 output_node_names = sys.argv[2]
 output_graph = sys.argv[3]
 meta_path = input_checkpoint + '.meta'
-
-reader = tf.train.NewCheckpointReader(input_checkpoint)
-
-global_variables = reader.get_variable_to_shape_map()
-for variable_name in global_variables:
-    print(variable_name, global_variables[variable_name])
 
 freeze_graph(input_checkpoint, meta_path, output_node_names, output_graph)
