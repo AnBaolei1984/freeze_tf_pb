@@ -16,7 +16,7 @@ def freeze_graph(input_checkpoint, meta_path, output_node_names, output_graph):
 
         output_graph_def = graph_util.convert_variables_to_constants(  
             sess = sess,
-            input_graph_def,
+            input_graph_def = input_graph_def,
             output_node_names = output_node_names.split(','))
  
         with tf.gfile.GFile(output_graph, 'wb') as f: 
