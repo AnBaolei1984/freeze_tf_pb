@@ -12,7 +12,6 @@ def freeze_graph(input_checkpoint, meta_path, output_node_names, output_graph):
 
     with tf.Session() as sess:
         saver.restore(sess, input_checkpoint)
-        print (sess.graph_def)
 
         output_graph_def = graph_util.convert_variables_to_constants(  
             sess = sess,
@@ -31,5 +30,11 @@ input_checkpoint = sys.argv[1]
 output_node_names = sys.argv[2]
 output_graph = sys.argv[3]
 meta_path = input_checkpoint + '.meta'
+
+reader = tf.train.NewCheckpointReader(input_checkpoint)
+
+global_variables = reader.get_variable_to_shape_map()
+for variable_name in global_variables:
+    print(variable_name, global_variables[variable_name])
 
 freeze_graph(input_checkpoint, meta_path, output_node_names, output_graph)
