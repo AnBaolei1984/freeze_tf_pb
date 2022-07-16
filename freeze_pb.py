@@ -19,13 +19,13 @@ def freeze_graph(input_checkpoint, meta_path, output_node_names, output_graph):
             f.write(output_graph_def.SerializeToString())
         print("%d ops in the final graph." % len(output_graph_def.node)) 
 
-if len(sys.argv) < 5:
-    print('input error: input_checkpoint, meta_path, output_node_names, output_graph')
+if len(sys.argv) < 4:
+    print('input error: input_checkpoint, output_node_names, output_graph')
     exit(1)
 
 input_checkpoint = sys.argv[1]
-meta_path = sys.argv[2]
-output_node_names = sys.argv[3]
-output_graph = sys.argv[4]
+output_node_names = sys.argv[2]
+output_graph = sys.argv[3]
+meta_path = input_checkpoint + '.meta'
 
 freeze_graph(input_checkpoint, meta_path, output_node_names, output_graph)
