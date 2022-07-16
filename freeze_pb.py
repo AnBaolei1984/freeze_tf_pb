@@ -19,11 +19,19 @@ def freeze_graph(input_checkpoint, meta_path, output_node_names, output_graph):
         print("%d ops in the final graph." % len(output_graph_def.node)) 
 
 if len(sys.argv) < 5:
-    print('input error: input_checkpoint, meta_path, output_graph, output_node_names')
+    print('input error: input_checkpoint, meta_path, output_node_names, output_graph')
     exit(1)
 
-    input_checkpoint = sys.argv[1]
-    meta_path = sys.argv[2]
-    output_node_names = sys.argv[3]
-    output_graph = sys.argv[4]
-    freeze_graph(input_checkpoint, meta_path, output_node_names, output_graph)
+input_checkpoint = sys.argv[1]
+meta_path = sys.argv[2]
+output_node_names = sys.argv[3]
+output_graph = sys.argv[4]
+
+# print all nodes in network
+reader = tf.train.NewCheckpointReader(input_checkpoint)
+var_to_shape_map = reader.get_variable_to_shape_map()
+for key in var_to_shape_map:
+    print ('tensor name :' key)
+
+
+freeze_graph(input_checkpoint, meta_path, output_node_names, output_graph)
