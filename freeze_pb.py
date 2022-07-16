@@ -7,12 +7,16 @@ from tensorflow.python.framework import graph_util
 
 def freeze_graph(input_checkpoint, meta_path, output_node_names, output_graph):
     saver = tf.train.import_meta_graph(meta_path, clear_devices = True)
+    graph = tf.get_default_graph()
+    input_graph_def = graph.as_graph_def()
+
     with tf.Session() as sess:
         saver.restore(sess, input_checkpoint)
         print (sess.graph_def)
+
         output_graph_def = graph_util.convert_variables_to_constants(  
             sess = sess,
-            input_graph_def = sess.graph_def,
+            input_graph_def,
             output_node_names = output_node_names.split(','))
  
         with tf.gfile.GFile(output_graph, 'wb') as f: 
