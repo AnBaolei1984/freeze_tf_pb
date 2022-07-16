@@ -8,4 +8,4 @@
 
 示例：
 
-python3 freeze_pb.py  uncased_L-12_H-768_A-12/bert_model.ckpt save/restore_all output/frozen.pb
+python3 freeze_pb.py  uncased_L-12_H-768_A-12/bert_model.ckpt bert/encoder/layer_11/output/LayerNorm/batchnorm/add_1 output/frozen.pb
